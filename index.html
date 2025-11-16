@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TRINITY MOBILE</title>
+<style>
+  :root{
+    --bg:#0b0b0b;
+    --accent:#ff3c00;
+    --accent-dark:#c32b00;
+    --glass: rgba(255,255,255,0.04);
+    --white: #fff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background:linear-gradient(180deg,#070707 0%, #0f0f10 60%);
+    color:var(--white);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* HEADER */
+  .header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px;
+    gap:12px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:12px;
+  }
+  .logo-badge{
+    width:48px;height:36px;border-radius:6px;
+    background:linear-gradient(90deg,var(--accent) 0%, #ff8a4d 100%);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;
+    box-shadow:0 6px 20px rgba(195,43,0,0.25);
+    font-family: Inter, Arial;
+  }
+  .brand{
+    font-size:18px;font-weight:700;letter-spacing:1px;
+  }
+
+  /* MENU BUTTON */
+  .menu-btn{
+    width:52px;height:52px;border-radius:999px;background:var(--white);
+    color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:28px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.6);
+  }
+
+  /* MAIN HERO */
+  .hero{
+    padding:18px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .headline{
+    font-size:28px;
+    color:var(--accent);
+    margin:8px 0 6px;
+    line-height:1.05;
+    font-weight:800;
+  }
+  .subtitle{
+    color:rgba(255,255,255,0.87);
+    max-width:780px;margin:0 auto 18px;font-size:15px;
+  }
+
+  /* Animated phone */
+  .phone-wrap{
+    width:84%;
+    max-width:520px;
+    margin:18px auto 6px;
+    perspective:1000px;
+  }
+  .phone{
+    width:100%;
+    aspect-ratio: 9/16;
+    border-radius:28px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    box-shadow: 0 24px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    position:relative;
+    transform-origin:center;
+    transform: rotateX(12deg) rotateZ(-6deg);
+    animation: levitate 6s ease-in-out infinite;
+    overflow:hidden;
+  }
+  @keyframes levitate{
+    0%{transform: rotateX(10deg) rotateZ(-6deg) translateY(0)}
+    50%{transform: rotateX(14deg) rotateZ(-4deg) translateY(-10px)}
+    100%{transform: rotateX(10deg) rotateZ(-6deg) translateY(0)}
+  }
+  .phone::before{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(120deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
+    mix-blend-mode:overlay;
+    pointer-events:none;
+  }
+  .phone-screen{
+    position:absolute;inset:18px;border-radius:18px;
+    background:
+      radial-gradient(1200px 300px at 10% 0%, rgba(255,60,0,0.03), transparent 8%),
+      linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.04));
+  }
+
+  /* BUTTON */
+  .cta-row{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:14px}
+  .btn{
+    display:inline-block;padding:16px 50px;border-radius:999px;font-weight:700;
+    text-decoration:none;color:#fff;background:linear-gradient(90deg,var(--accent) 0%, var(--accent-dark) 100%);
+    box-shadow:0 8px 26px rgba(195,43,0,0.28);transition:transform .18s ease,opacity .18s;
+  }
+  .btn:active{transform:translateY(2px)}
+  .btn.disabled{opacity:0.45;pointer-events:none;}
+
+  .muted{opacity:.6;font-size:13px;margin-top:6px}
+
+  /* FOOTER CARD (white rounded toolbar) */
+  .toolbar{
+    position:fixed;left:0;right:0;bottom:14px;margin:0 auto;
+    max-width:820px;padding:12px 18px;background:rgba(255,255,255,0.03);
+    border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    backdrop-filter: blur(6px);
+  }
+  .toolbar .url{flex:1;text-align:left;color:#fff;opacity:.95}
+  .toolbar .icons{display:flex;gap:12px;align-items:center}
+
+  /* MENU PANEL (overlay) */
+  .menu-panel{
+    position:fixed;inset:0;background: linear-gradient(180deg, rgba(227,48,8,0.98), rgba(196,40,0,0.98));
+    display:flex;align-items:center;justify-content:center;padding-top:40px;
+    z-index:30;transform: translateY(-6%);opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s cubic-bezier(.2,.9,.3,1);
+  }
+  .menu-panel.open{transform:none;opacity:1;pointer-events:auto}
+  .menu-list{display:flex;flex-direction:column;gap:20px;font-weight:800;font-size:34px;text-align:center;color:white}
+  .menu-close{position:absolute;left:20px;top:20px;font-size:48px;color:white;cursor:pointer}
+
+  /* small screens */
+  @media (max-width:520px){
+    .headline{font-size:22px}
+    .subtitle{font-size:14px;padding:0 10px}
+    .menu-list{font-size:28px}
+    .logo-badge{width:44px;height:32px}
+  }
+
+  /* online badge */
+  .online-badge{
+    display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(0,0,0,0.45);
+    color:#fff;font-weight:700;margin-left:8px;font-size:13px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35);
+  }
+
+  /* modal */
+  .modal{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.6);z-index:50;visibility:hidden;opacity:0;transition:opacity .18s;
+  }
+  .modal.open{visibility:visible;opacity:1}
+  .modal-card{width:92%;max-width:420px;background:linear-gradient(180deg,#0f0f10, #0b0b0b);padding:20px;border-radius:14px;}
+  .modal-card h3{margin:0 0 8px}
+  .modal-row{display:flex;gap:10px;margin-top:12px}
+  .link-ghost{flex:1;padding:12px;border-radius:10px;border:1px dashed rgba(255,255,255,0.06);text-align:center;color:rgba(255,255,255,0.95);text-decoration:none}
+
+  /* small helper */
+  .muted-2{opacity:.55;font-size:13px;margin-top:6px}
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-badge">TM</div>
+      <div>
+        <div class="brand">TRINITY MOBILE</div>
+        <div style="font-size:12px;opacity:.6;margin-top:2px">Криминальная Россия — мобильная версия</div>
+      </div>
+    </div>
+
+    <button class="menu-btn" id="openMenuBtn" aria-label="menu">☰</button>
+  </header>
+
+  <!-- HERO -->
+  <main class="hero">
+    <div class="headline">КРИМИНАЛЬНАЯ РОССИЯ<br>НА ТВОЕМ СМАРТФОНЕ</div>
+    <div class="subtitle">Стабильный сервер, уникальные системы, большое сообщество игроков — скачивай игру, мир TRINITY MOBILE ждёт тебя!</div>
+
+    <div class="phone-wrap" aria-hidden="true">
+      <div class="phone" role="img" aria-label="phone mockup">
+        <div class="phone-screen">
+          <!-- Здесь можно вставить фоновое изображение/скриншоты внутри телефона -->
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a id="downloadBtn" class="btn disabled" href="#" role="button">Скачать игру</a>
+      <div class="muted">Временно недоступно</div>
+
+      <div class="muted-2">Онлайн игроков:
+        <span id="onlineCount" class="online-badge">0</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- floating toolbar (simulating bottom browser bar in screenshots) -->
+  <div class="toolbar" role="navigation" aria-label="site toolbar">
+    <div class="url">trinity-mob.ru</div>
+    <div class="icons">
+      <button id="openMenuBtnSmall" class="menu-btn" aria-label="menu small" style="width:44px;height:44px;font-size:22px">☰</button>
+    </div>
+  </div>
+
+  <!-- MENU PANEL (overlay) -->
+  <div id="menuPanel" class="menu-panel" aria-hidden="true">
+    <div class="menu-close" id="closeMenu">✕</div>
+    <nav class="menu-list" aria-label="main menu">
+      <a href="#" style="color:white;text-decoration:none">ГЛАВНАЯ</a>
+      <a href="#" style="color:white;opacity:.85;text-decoration:none">ДОНАТ</a>
+      <a href="#" style="color:white;opacity:.85;text-decoration:none">СКАЧАТЬ ЛАУНЧЕР</a>
+      <a href="#" style="color:white;opacity:.85;text-decoration:none">МЫ ВКОНТАКТЕ</a>
+      <!-- Форум — активная ссылка -->
+      <a href="https://trinityrussia-forum.hgweb.ru" target="_blank" style="color:white;text-decoration:none">ФОРУМ</a>
+    </nav>
+  </div>
+
+  <!-- MODAL FOR DOWNLOADS (placeholder) -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Скачать — заглушка</h3>
+      <p class="muted-2">Здесь будут прямые ссылки на APK/лаунчер/инструкции. Пока — примеры и заглушки.</p>
+
+      <div class="modal-row">
+        <!-- Replace href="#" with real files when ready -->
+        <a class="link-ghost" id="apkLink" href="#" download>APK (Android)</a>
+        <a class="link-ghost" id="launcherLink" href="#" download>Лаунчер</a>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">
+        <button id="closeModal" class="btn" style="padding:10px 18px;background:rgba(255,255,255,0.06);box-shadow:none">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Menu open/close
+  const menuPanel = document.getElementById('menuPanel');
+  const openMenuBtn = document.getElementById('openMenuBtn');
+  const openMenuBtnSmall = document.getElementById('openMenuBtnSmall');
+  const closeMenu = document.getElementById('closeMenu');
+
+  function showMenu(){ menuPanel.classList.add('open'); menuPanel.setAttribute('aria-hidden','false'); }
+  function hideMenu(){ menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); }
+
+  openMenuBtn.addEventListener('click', showMenu);
+  openMenuBtnSmall.addEventListener('click', showMenu);
+  closeMenu.addEventListener('click', hideMenu);
+  menuPanel.addEventListener('click', (e)=>{ if(e.target===menuPanel) hideMenu(); });
+
+  // Modal (download)
+  const modal = document.getElementById('modal');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const closeModal = document.getElementById('closeModal');
+
+  downloadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    // если хотите, можно сделать условие: если ссылка задана — открывать скачивание, иначе модал.
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+  });
+  closeModal.addEventListener('click', ()=>{ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); });
+  modal.addEventListener('click', (e)=>{ if(e.target===modal) { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); } });
+
+  // ONLINE counter demo
+  const onlineCountEl = document.getElementById('onlineCount');
+
+  // Demo: случайное число, но ты можешь заменить fetch('/api/online') ...
+  function updateOnlineDemo(){
+    // сюда можно подставить fetch к вашему API, например:
+    // fetch('/api/online').then(r=>r.json()).then(d=> onlineCountEl.textContent = d.online)
+    const demo = Math.floor(Math.random()*420); // demo value
+    onlineCountEl.textContent = demo;
+  }
+  // обновляем при загрузке и каждые 10 секунд
+  updateOnlineDemo();
+  setInterval(updateOnlineDemo, 10000);
+
+  // Быстрое включение кнопки скачивания, если захотите активировать
+  // document.getElementById('downloadBtn').classList.remove('disabled');
+
+  /* Инструкции:
+     - Замените href в блоке модального окна (#apkLink, #launcherLink) на реальные ссылки.
+     - Если есть API онлайна — подключите в функцию updateOnlineDemo().
+     - Если хотите, чтобы кнопка "Скачать игру" вела прямо на файл, уберите класс .disabled и поставьте link.
+  */
+</script>
+
+</body>
+  </html>
